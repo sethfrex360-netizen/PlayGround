@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101a17">
+  <link rel="icon" href="data:,">
+  <title>Last Light — Wilderness Survival</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game-shell">
+    <canvas id="world" aria-label="Wilderness survival game"></canvas>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Last Light home"><span class="brand-mark">✳</span><span>FIELD NOTES <b>/ 01</b></span></a>
+      <div class="day-pill"><span class="live-dot"></span><span id="dayLabel">DAY 01</span><i></i><span id="weatherLabel">CLEAR SKIES</span></div>
+      <button class="icon-button" id="soundButton" aria-label="Toggle sound" title="Toggle sound">♫</button>
+    </header>
+
+    <section class="left-panel glass">
+      <div class="section-heading"><span>CONDITION</span><span class="status-chip" id="conditionText">STEADY</span></div>
+      <div class="vitals">
+        <div class="vital-row"><div class="vital-icon hunger">◒</div><div class="vital-info"><div class="vital-label"><span>HUNGER</span><span id="hungerNum">78%</span></div><div class="meter"><i id="hungerBar" class="meter-fill hunger-fill"></i></div></div></div>
+        <div class="vital-row"><div class="vital-icon thirst">⌁</div><div class="vital-info"><div class="vital-label"><span>THIRST</span><span id="thirstNum">72%</span></div><div class="meter"><i id="thirstBar" class="meter-fill thirst-fill"></i></div></div></div>
+        <div class="vital-row"><div class="vital-icon health">✚</div><div class="vital-info"><div class="vital-label"><span>HEALTH</span><span id="healthNum">100%</span></div><div class="meter"><i id="healthBar" class="meter-fill health-fill"></i></div></div></div>
+      </div>
+      <div class="panel-divider"></div>
+      <div class="section-heading"><span>FIELD LOG</span><span class="tiny-count" id="clock">08:20</span></div>
+      <p class="log-copy" id="logCopy">The crash site is quiet. Find water before the sun gets high.</p>
+      <div class="objective"><span class="objective-icon">◎</span><span id="objectiveText">Find a source of fresh water</span></div>
+    </section>
+
+    <section class="right-panel">
+      <div class="map-card glass"><div class="map-head"><span>YOUR SURROUNDINGS</span><span class="map-coord" id="coords">N 04° · E 12°</span></div><canvas id="minimap" width="132" height="132"></canvas><div class="map-legend"><span><i class="legend-you"></i>YOU</span><span><i class="legend-water"></i>WATER</span></div></div>
+      <div class="inventory-card glass"><div class="map-head"><span>PACK</span><span class="tiny-count" id="packCount">0 / 24</span></div><div class="inventory-grid" id="inventory"></div></div>
+      <div class="quick-actions glass"><div class="map-head"><span>QUICK ACTIONS</span><span class="key-note">[ 1 — 3 ]</span></div><div class="action-list">
+        <button class="action-button" id="eatButton"><span class="action-icon">◉</span><span><b>Eat berries</b><small>Restore hunger <kbd>1</kbd></small></span><em id="berriesCount">0</em></button>
+        <button class="action-button" id="drinkButton"><span class="action-icon water-icon">⌁</span><span><b>Drink water</b><small>Restore thirst <kbd>2</kbd></small></span><em id="waterCount">0</em></button>
+        <button class="action-button" id="fireButton"><span class="action-icon fire-icon">♨</span><span><b>Build campfire</b><small>4 wood · 2 stone <kbd>3</kbd></small></span><em>＋</em></button>
+      </div></div>
+      <div class="shelter-tip"><span>☾</span><p><b>Night is coming.</b><br>Build a shelter to make it through.</p></div>
+    </section>
+
+    <div class="bottom-ui">
+      <div class="interaction-hint" id="interactionHint"><span class="keycap">E</span><span id="hintText">Explore the forest</span></div>
+      <div class="hotbar glass"><button class="hot-slot selected" data-slot="0"><span class="slot-key">1</span><span class="slot-symbol">◉</span><span class="slot-label">BERRIES</span></button><button class="hot-slot" data-slot="1"><span class="slot-key">2</span><span class="slot-symbol">⌁</span><span class="slot-label">WATER</span></button><button class="hot-slot" data-slot="2"><span class="slot-key">3</span><span class="slot-symbol">♨</span><span class="slot-label">CAMPFIRE</span></button><div class="hotbar-sep"></div><button class="hot-slot build-slot" id="shelterButton"><span class="slot-key">4</span><span class="slot-symbol">⌂</span><span class="slot-label">SHELTER</span></button><span class="controls-note"><kbd>WASD</kbd> MOVE <kbd>E</kbd> GATHER <kbd>SHIFT</kbd> RUN</span></div>
+    </div>
+
+    <div class="touch-controls" id="touchControls"><div class="touch-stick" id="touchStick"><span>✥</span></div><div class="touch-actions"><button id="touchGather">GATHER<br><small>E</small></button><button id="touchShelter">BUILD<br><small>SHELTER</small></button></div></div>
+    <div class="toast" id="toast" aria-live="polite"></div>
+    <div class="overlay" id="startOverlay"><div class="start-card"><div class="eyebrow"><span class="live-dot"></span> SURVIVAL JOURNAL — ENTRY 01</div><div class="title-mark">✳</div><h1>LAST<br><span>LIGHT</span></h1><p class="intro">Alone in the wild. The days are yours to survive.</p><div class="start-rule"></div><div class="start-details"><div><b>YOUR MISSION</b><span>Survive five days until the rescue plane returns.</span></div><div><b>FIRST THINGS FIRST</b><span>Find water. Gather supplies. Stay warm after dark.</span></div></div><button class="primary-button" id="startButton">BEGIN YOUR STORY <span>→</span></button><div class="start-controls">WASD TO MOVE <i>·</i> E TO GATHER <i>·</i> 1—4 TO ACT</div></div><div class="overlay-side-note">WILDERNESS SURVIVAL SIMULATOR <span>— 48° 12′ N</span></div></div>
+
+    <div class="overlay hidden" id="endOverlay"><div class="start-card end-card"><div class="eyebrow" id="endEyebrow">FIELD REPORT</div><div class="title-mark" id="endMark">✳</div><h1 id="endTitle">THE END</h1><p class="intro" id="endCopy"></p><div class="start-rule"></div><div class="start-details"><div><b>TIME IN THE WILD</b><span id="finalDays">0 days</span></div><div><b>SUPPLIES GATHERED</b><span id="finalGathered">0 items</span></div></div><button class="primary-button" id="restartButton">TRY AGAIN <span>↻</span></button></div></div>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
